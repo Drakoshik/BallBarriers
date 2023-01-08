@@ -8,10 +8,16 @@ namespace GameLogic.Animations
     {
         
         private Sequence _doorSequence;
-        private bool _isClosed;
+        private bool _isOpen;
+
+        private void OnEnable()
+        {
+            _isOpen = false;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
+            if(_isOpen) return;
             if (other.GetComponent<BulletBall>().GetIsMain())
             {
                 OpenDoor();
@@ -31,6 +37,7 @@ namespace GameLogic.Animations
                 .From(transform.localEulerAngles));
             _doorSequence.Join(transform.DOLocalMove(new Vector3(-2.5f, 2.6f, 13.7f), 1f)
                 .From(new Vector3(.8f, 2.6f, 13.7f)));
+            _isOpen = true;
 
         }
     }
